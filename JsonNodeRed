@@ -1,0 +1,264 @@
+[
+    {
+        "id": "044814a1ea1cca78",
+        "type": "tab",
+        "label": "ProjetoPh",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "61f5dffc6c85e538",
+        "type": "mqtt in",
+        "z": "044814a1ea1cca78",
+        "name": "Leitura Ph Camburi",
+        "topic": "mack10252524/ph1234",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "71e2d001666ebb58",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 200,
+        "wires": [
+            [
+                "c483c82032b18ee7"
+            ]
+        ]
+    },
+    {
+        "id": "3d08fe72788c2054",
+        "type": "debug",
+        "z": "044814a1ea1cca78",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "aa3648490dcd4374",
+        "type": "influxdb out",
+        "z": "044814a1ea1cca78",
+        "influxdb": "70a510ff01029eb6",
+        "name": "",
+        "measurement": "Ph1234",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "Mackenzie",
+        "bucket": "BucketInflux",
+        "x": 980,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c483c82032b18ee7",
+        "type": "function",
+        "z": "044814a1ea1cca78",
+        "name": "GetPhCamburi",
+        "func": "msg.praia=\"Praia de Camburi\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 200,
+        "wires": [
+            [
+                "aa3648490dcd4374",
+                "3d08fe72788c2054",
+                "b38887b1ad2b321f"
+            ]
+        ]
+    },
+    {
+        "id": "4c8bb78403a3c0fc",
+        "type": "node-red-contrib-whatsapp-cmb-send-message",
+        "z": "044814a1ea1cca78",
+        "name": "",
+        "credtype": "account",
+        "account": "ad6ad6b8957c3134",
+        "text": "payload",
+        "phonenumbervalue": "",
+        "apikeyvalue": "",
+        "apikeyinputtypemessage": "msg",
+        "phonenumberinputtypemessage": "msg",
+        "inputtypemessage": "msg",
+        "rejectssl": false,
+        "x": 1260,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b38887b1ad2b321f",
+        "type": "switch",
+        "z": "044814a1ea1cca78",
+        "name": "EnviaAlerta",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "7",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 730,
+        "y": 400,
+        "wires": [
+            [
+                "6cfd20cdcc96b9e7"
+            ]
+        ]
+    },
+    {
+        "id": "6cfd20cdcc96b9e7",
+        "type": "function",
+        "z": "044814a1ea1cca78",
+        "name": "MontaMensagem",
+        "func": "msg.payload = \"O valor de PH da \" + msg.praia +  \" está crítico. Valor Ph: \" + msg.payload\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 420,
+        "wires": [
+            [
+                "4c8bb78403a3c0fc"
+            ]
+        ]
+    },
+    {
+        "id": "70710484a27c5a9f",
+        "type": "mqtt in",
+        "z": "044814a1ea1cca78",
+        "name": "Leitura Ph Baleia",
+        "topic": "mack10252524/ph4567",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "71e2d001666ebb58",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 560,
+        "wires": [
+            [
+                "24202db35c0d18cd"
+            ]
+        ]
+    },
+    {
+        "id": "d5a40549d29d2525",
+        "type": "influxdb out",
+        "z": "044814a1ea1cca78",
+        "influxdb": "70a510ff01029eb6",
+        "name": "",
+        "measurement": "Ph4567",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "Mackenzie",
+        "bucket": "BucketInflux",
+        "x": 980,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "24202db35c0d18cd",
+        "type": "function",
+        "z": "044814a1ea1cca78",
+        "name": "GetPhBaleia",
+        "func": "msg.praia=\"Praia da Baleia\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 560,
+        "wires": [
+            [
+                "d5a40549d29d2525",
+                "b38887b1ad2b321f"
+            ]
+        ]
+    },
+    {
+        "id": "71e2d001666ebb58",
+        "type": "mqtt-broker",
+        "name": "mosquitto",
+        "broker": "test.mosquitto.org",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "70a510ff01029eb6",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "InfluxDb",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "https://us-east-1-1.aws.cloud2.influxdata.com",
+        "timeout": 10,
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "ad6ad6b8957c3134",
+        "type": "node-red-contrib-whatsapp-cmb-account",
+        "name": "CallMeBot"
+    }
+]
